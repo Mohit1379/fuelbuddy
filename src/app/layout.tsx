@@ -8,6 +8,8 @@ import BootstrapInitializer from "@/components/BootstrapInitializer";
 import Header from "@/template/Header";
 import { Roboto } from "next/font/google";
 import { ReactNode } from "react";
+import { UserContextProvider } from "@/context/UserContextProvider";
+
 
 // Configure Roboto font
 const roboto = Roboto({
@@ -33,7 +35,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en">
       <body className={roboto.className}>
       <Header />
+     <UserContextProvider>
       {children}
+      </UserContextProvider>
       <BootstrapInitializer/>
       </body>
     </html>
