@@ -1,21 +1,35 @@
-import React from 'react';
-import styles from '@/styles/feed.module.scss'
+'use client'
+import React, { useContext } from 'react';
+import styles from '@/styles/notification.module.scss'
 import Image from 'next/image';
+import UserContext from '@/context/UserContext';
 
 function Feed() {
+  const { notification } = useContext(UserContext)
   return (
-   <main style={{paddingTop:"80px", height:"100vh",backgroundColor:'#f4f2ee'}}>
-      <div className={styles.feed_card}>
-      <div className='d-flex align-items-center'>
-          <div className="circle-div flex-shrink-1">
-            <Image src="/linkdinProfile.jpg" width={100} height={100} alt='profilePic'/>
+    <main style={{ padding: "80px 0px 20px 0px", backgroundColor: '#f4f2ee' }}>
+    <ul className={styles.notification_card} style={{ marginBottom: "20px" }}>
+      {notification.map(notification => (
+        <li key={notification.id} className={styles.notification}>
+          <Image
+            width={48}
+            height={48}
+            className={notification.sharedPost ? `${styles.notification__avatar} ${styles.square}` : styles.notification__avatar}
+            src={notification.avatarSrc}
+            alt=""
+          />
+          <div className={styles.notification__body} dangerouslySetInnerHTML={{ __html: notification.body }}></div>
+          <div className={styles.notification__interactive}>
+            <div className={styles.notification__time}>{notification.time}</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1.5rem" id="overflow-web-ios-medium" role="none" data-supported-dps="24x24" fill="currentColor">
+              <path d="M14 12a2 2 0 11-2-2 2 2 0 012 2zM4 10a2 2 0 102 2 2 2 0 00-2-2zm16 0a2 2 0 102 2 2 2 0 00-2-2z"></path>
+            </svg>
           </div>
-          <div className='w-100'>
-            <button className='w-100'>Start a Post, try writing with AI</button>
-          </div>
-      </div>
-      </div>
-   </main>
+        </li>
+      ))}
+    </ul>
+    {/* <button onClick={handleAddNotification}>Add Notification</button> */}
+  </main>
   )
 }
 
